@@ -55,19 +55,24 @@ class MainActivity : ComponentActivity() {
     )
 
             {
-                val newTheme = if (viewModel.theme.value == ThemeName.LIGHT) ThemeName.DARK else ThemeName.LIGHT
+                 val context = LocalContext.current
+                 val theme = AppPreference.getSharedPreference(LocalContext.current).getString(Contants.theme, ThemeName.LIGHT.name)
+                 viewModel.setTheme(ThemeName.valueOf(theme!!))
+                val newTheme = if (theme == ThemeName.LIGHT.toString()) ThemeName.DARK else ThemeName.LIGHT
                 Column(modifier=Modifier.fillMaxSize(),verticalArrangement= Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text="Light Mode",modifier=Modifier.clickable{
-
+                        AppPreference.putString(context,Contants.theme, newTheme)
                              viewModel.setTheme(newTheme)
                     })
 
                     Spacer(modifier=Modifier.padding(0.dp,10.dp,0.dp,0.dp))
                     Text(text="Dark Mode",modifier=Modifier.clickable{
+                        AppPreference.putString(context,Contants.theme, newTheme)
                         viewModel.setTheme(newTheme)
                     })
                     Spacer(modifier=Modifier.padding(0.dp,10.dp,0.dp,0.dp))
                     Text(text="Default",modifier=Modifier.clickable{
+                        AppPreference.putString(context,Contants.theme, newTheme)
                         viewModel.setTheme(newTheme)
                     })
                 }
